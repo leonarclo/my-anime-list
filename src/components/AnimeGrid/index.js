@@ -1,8 +1,7 @@
-import { Container, TitleRecommendations } from "./style";
-import { AnimeData } from "../AnimeCard/style";
+import { Container, TitleRecommendations, AnimeData } from "./style";
 
 function AnimeGrid({ animeList, animeRecommendations }) {
-  return animeList && animeList.length > 0 ? (
+  return animeList.length > 0 ? (
     <Container>
       {animeList.map((item) => (
         <AnimeData key={item.mal_id}>
