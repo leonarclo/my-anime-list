@@ -7,6 +7,11 @@ export const Container = styled.aside`
   padding: 20px;
   color: var(--first-color);
 
+  a {
+    text-decoration: none;
+    color: var(--first-color);
+  }
+
   h2 {
     color: var(--first-color);
     font-size: 20px;

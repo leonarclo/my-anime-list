@@ -5,18 +5,20 @@ function AnimeGrid({ animeList, animeRecommendations }) {
     <Container>
       {animeList.map((item) => (
         <AnimeData key={item.mal_id}>
-          <div>
-            <span>{item.rank}</span>
-            <h3>{item.title}</h3>
-          </div>
-          <img
-            src={item.images.jpg.image_url}
-            alt={`Imagem do anime ${item.title}`}
-          />
-          <p>
-            {item.type}, {item.year} - {`${item.episodes} eps`}
-          </p>
-          <p>{`Nota: ${item.score}`}</p>
+          <a href={item.url} target="_blank" rel="noreferrer">
+            <div>
+              <span>{item.rank}</span>
+              <h3>{item.title}</h3>
+            </div>
+            <img
+              src={item.images.jpg.image_url}
+              alt={`Imagem do anime ${item.title}`}
+            />
+            <p>
+              {item.type}, {item.year} - {`${item.episodes} eps`}
+            </p>
+            <p>{`Nota: ${item.score}`}</p>
+          </a>
         </AnimeData>
       ))}
     </Container>
@@ -28,13 +30,15 @@ function AnimeGrid({ animeList, animeRecommendations }) {
       </TitleRecommendations>
       {animeRecommendations.map((item) => (
         <AnimeData key={item.mal_id}>
-          <div>
-            <h3>{item.entry[0].title}</h3>
-          </div>
-          <img
-            src={item.entry[0].images.jpg.image_url}
-            alt={`Imagem do anime ${item.entry[0].title}`}
-          />
+          <a href={item.entry[0].url} target="_blank" rel="noreferrer">
+            <div>
+              <h3>{item.entry[0].title}</h3>
+            </div>
+            <img
+              src={item.entry[0].images.jpg.image_url}
+              alt={`Imagem do anime ${item.entry[0].title}`}
+            />
+          </a>
         </AnimeData>
       ))}
     </Container>
