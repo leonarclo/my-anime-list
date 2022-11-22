@@ -1,13 +1,16 @@
+import { useContext } from "react";
+import { AnimeContext } from "../../contexts/AnimeContext.js";
 import { Container, TopAnime } from "./style.js";
 
-function Aside({ topAnime }) {
+function Aside() {
+  const { topAnime } = useContext(AnimeContext);
   return (
     <Container>
       <h2>Top animes</h2>
       <hr />
       {topAnime.map((item) => (
-        <a href={item.url} target="_blank" rel="noreferrer">
-          <TopAnime key={item.mal_id}>
+        <a href={item.url} target="_blank" rel="noreferrer" key={item.mal_id}>
+          <TopAnime>
             <span>{item.rank}</span>
             <img
               src={item.images.jpg.image_url}
