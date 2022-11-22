@@ -1,6 +1,10 @@
+import { useContext } from "react";
+import { AnimeContext } from "../../contexts/AnimeContext";
 import { Container, TitleRecommendations, AnimeData } from "./style";
 
-function AnimeGrid({ animeList, animeRecommendations }) {
+function AnimeGrid() {
+  const { animeList, animeRecommendations } = useContext(AnimeContext);
+
   return animeList.length > 0 ? (
     <Container>
       {animeList.map((item) => (

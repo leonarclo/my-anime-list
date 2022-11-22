@@ -1,8 +1,10 @@
 import { Container, Content, Title } from "./style";
 import SearchInput from "../SearchInput/index";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AnimeContext } from "../../contexts/AnimeContext";
 
-const Header = ({ fetchAnime }) => {
+const Header = () => {
+  const { fetchAnime } = useContext(AnimeContext);
   const [search, setSearch] = useState("");
 
   function handleSearch(event) {
@@ -10,7 +12,6 @@ const Header = ({ fetchAnime }) => {
 
     fetchAnime(search);
     setSearch("");
-    console.log(search);
   }
 
   return (
