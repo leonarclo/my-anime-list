@@ -2,12 +2,37 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   background-color: var(--fourth-color);
-  text-align: center;
   margin: 10px 0 0 20px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
+  display: grid;
+  width: 100%;
+  max-height: 730px;
+  grid-template-columns: 1fr;
   flex-wrap: wrap;
+  padding: 20px;
+
+  ul {
+    max-height: 800px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 0 40px 40px 40px;
+
+    li {
+      padding: 3px;
+    }
+  }
+
+  h2 {
+    color: var(--first-color);
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  hr {
+    height: 2px;
+    background-color: var(--second-color);
+    margin-bottom: 20px;
+  }
 
   h3 {
     white-space: nowrap;
@@ -19,17 +44,13 @@ export const Container = styled.section`
     display: none;
   }
 
-  p {
-    color: var(--second-color);
-  }
-`;
+  a {
+    color: var(--first-color);
 
-export const TitleRecommendations = styled.h2`
-  display: block;
-  text-transform: uppercase;
-  width: 100%;
-  padding: 20px;
-  color: var(--second-color);
+    :hover {
+      color: var(--second-color);
+    }
+  }
 `;
 
 export const AnimeData = styled.nav`
