@@ -19,4 +19,5 @@ export const Title = styled.h1`
   font-size: 25px;
   font-weight: bold;
   color: var(--second-color);
+  cursor: pointer;
 `;

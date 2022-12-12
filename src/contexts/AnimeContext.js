@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import { data } from "../api/genres";
 
 export const AnimeContext = createContext();
 
@@ -6,6 +7,10 @@ export const AnimeContextProvider = ({ children }) => {
   const [topAnime, setTopAnime] = useState([]);
   const [animeList, setAnimeList] = useState([]);
   const [animeRecommendations, setAnimeRecommendations] = useState([]);
+  const [animeGenres, setAnimeGenres] = useState([]);
+  const [animeByGenre, setAnimeByGenre] = useState([]);
+  const [genreList, setGenreList] = useState([]);
+  const [genreSelected, setGenreSelected] = useState([]);
 
   async function getTopAnime() {
     const response = await fetch(`https://api.jikan.moe/v4/top/anime`);
@@ -13,23 +18,37 @@ export const AnimeContextProvider = ({ children }) => {
     setTopAnime(data.data.slice(0, 5));
   }
 
-  async function getAnimeRecommendations() {
-    const response = await fetch(
-      `https://api.jikan.moe/v4/recommendations/anime`
-    );
-    const data = await response.json();
+  function getAnimeGenre() {
+    setAnimeGenres(data);
+  }
 
-    let min = Math.floor(Math.random() * 60);
-    let max = min + 32;
-    setAnimeRecommendations(data.data.slice(min, max));
+  async function getAnimeByGenre() {
+    const response = await fetch(`https://api.jikan.moe/v4/anime?genres`);
+
+    const data = await response.json();
+    const genres = data.data
+      .map((item) => item)
+      .filter((item) => item.genres[0].name === animeByGenre);
+    setGenreList(genres);
+  }
+
+  async function getAnimebyGenreId(id) {
+    const response = await fetch(`https://api.jikan.moe/v4/anime?genres=${id}`);
+
+    const data = await response.json();
+    setGenreList(data.data);
   }
 
   useEffect(() => {
-    getTopAnime();
-  }, [topAnime]);
+    getAnimeByGenre();
+  }, []);
 
   useEffect(() => {
-    getAnimeRecommendations();
+    getAnimeGenre();
+  }, []);
+
+  useEffect(() => {
+    getTopAnime();
   }, []);
 
   async function fetchAnime(query) {
@@ -55,6 +74,15 @@ export const AnimeContextProvider = ({ children }) => {
         animeRecommendations,
         setAnimeRecommendations,
         fetchAnime,
+        animeGenres,
+        setAnimeGenres,
+        animeByGenre,
+        setAnimeByGenre,
+        genreList,
+        setGenreList,
+        getAnimebyGenreId,
+        genreSelected,
+        setGenreSelected,
       }}
     >
       {children}

@@ -14,10 +14,14 @@ const Header = () => {
     setSearch("");
   }
 
+  function reload() {
+    window.location.reload(false);
+  }
+
   return (
     <Container>
       <Content>
-        <Title>My Anime App</Title>
+        <Title onClick={reload}>My Anime App</Title>
         <SearchInput
           search={search}
           setSearch={setSearch}
