@@ -65,7 +65,7 @@ export const AnimeData = styled.nav`
     h3 {
       margin-left: 15px;
       font-size: 14px;
-      color: var(--first-color);
+      color: var(--secondary-color);
     }
   }
   span {

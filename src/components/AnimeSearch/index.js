@@ -1,11 +1,16 @@
 import React, { useContext } from "react";
 import { AnimeContext } from "../../contexts/AnimeContext";
+import { Loading } from "../../styles/GlobalStyles";
 import { Container, AnimeData } from "./style";
 
 function AnimeSearch() {
-  const { animeList } = useContext(AnimeContext);
+  const { animeList, loading } = useContext(AnimeContext);
 
-  return (
+  return loading ? (
+    <Loading>
+      <h4>Carregando...</h4>
+    </Loading>
+  ) : (
     <Container>
       {animeList.map((item) => (
         <AnimeData key={item.mal_id}>
