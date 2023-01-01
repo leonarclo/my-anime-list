@@ -1,21 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AnimeContext } from "../../contexts/AnimeContext";
 import { Container } from "./style";
 
 function AnimeGenre() {
-  const { animeGenres, getAnimebyGenreId, setGenreSelected } =
-    useContext(AnimeContext);
+  const {
+    animeGenres,
+    getAnimebyGenreId,
+    setGenreSelected,
+    setId,
+    id,
+    loading,
+  } = useContext(AnimeContext);
 
   function handleClick(event) {
     const filter = animeGenres.filter(
       (item) => item.name === event.target.innerText
     );
-    getAnimebyGenreId(filter[0].id);
+    setId(filter[0].id);
     setGenreSelected(filter[0].name);
   }
 
+  useEffect(() => {
+    getAnimebyGenreId(id);
+  }, [id]);
+
   return (
-    animeGenres && (
+    !loading && (
       <Container>
         <h2>Selecione um gênero</h2>
         <hr />

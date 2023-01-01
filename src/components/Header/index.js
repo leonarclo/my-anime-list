@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { AnimeContext } from "../../contexts/AnimeContext";
 
 const Header = () => {
-  const { fetchAnime } = useContext(AnimeContext);
+  const { fetchAnime, setCurrentPage } = useContext(AnimeContext);
   const [search, setSearch] = useState("");
 
   function handleSearch(event) {
@@ -16,6 +16,7 @@ const Header = () => {
 
   function reload() {
     window.location.reload(false);
+    setCurrentPage(1);
   }
 
   return (

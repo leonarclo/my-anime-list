@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -28,5 +29,18 @@ export const GlobalStyles = createGlobalStyle`
   }
   body {
     background-color: var(--third-color);
+  }
+`;
+
+export const Loading = styled.div`
+  width: 100vh;
+  height: 600px;
+  max-height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  h4 {
+    font-size: 30px;
+    color: var(--fourth-color);
   }
 `;

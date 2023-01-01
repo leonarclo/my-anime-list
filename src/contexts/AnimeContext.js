@@ -6,11 +6,14 @@ export const AnimeContext = createContext();
 export const AnimeContextProvider = ({ children }) => {
   const [topAnime, setTopAnime] = useState([]);
   const [animeList, setAnimeList] = useState([]);
-  const [animeRecommendations, setAnimeRecommendations] = useState([]);
   const [animeGenres, setAnimeGenres] = useState([]);
   const [animeByGenre, setAnimeByGenre] = useState([]);
   const [genreList, setGenreList] = useState([]);
+  const [id, setId] = useState(null);
+  const [loading, setLoading] = useState(null);
   const [genreSelected, setGenreSelected] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(null);
 
   async function getTopAnime() {
     const response = await fetch(`https://api.jikan.moe/v4/top/anime`);
@@ -22,26 +25,24 @@ export const AnimeContextProvider = ({ children }) => {
     setAnimeGenres(data);
   }
 
-  async function getAnimeByGenre() {
-    const response = await fetch(`https://api.jikan.moe/v4/anime?genres`);
-
-    const data = await response.json();
-    const genres = data.data
-      .map((item) => item)
-      .filter((item) => item.genres[0].name === animeByGenre);
-    setGenreList(genres);
-  }
-
   async function getAnimebyGenreId(id) {
-    const response = await fetch(`https://api.jikan.moe/v4/anime?genres=${id}`);
+    let allAnimes = [];
 
-    const data = await response.json();
-    setGenreList(data.data);
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://api.jikan.moe/v4/anime?genres=${id}&page=${currentPage}`
+      );
+      const data = await response.json();
+      allAnimes.push(...data.data);
+      setAnimeByGenre(allAnimes);
+      setLastPage(data.pagination.last_visible_page);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   }
-
-  useEffect(() => {
-    getAnimeByGenre();
-  }, []);
 
   useEffect(() => {
     getAnimeGenre();
@@ -52,15 +53,22 @@ export const AnimeContextProvider = ({ children }) => {
   }, []);
 
   async function fetchAnime(query) {
-    const response = await fetch(
-      `https://api.jikan.moe/v4/anime?q=${query}&limit=20`
-    );
-    const data = await response.json();
-    if (data.data.length > 0) {
-      setAnimeList(data.data);
-      console.log(data.data);
-    } else if (data.data.length === 0) {
-      alert("Nada encontrado! Por favor, tente outro nome.");
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://api.jikan.moe/v4/anime?q=${query}&limit=20`
+      );
+      const data = await response.json();
+      if (data.data.length > 0) {
+        setAnimeList(data.data);
+        console.log(data.data);
+      } else if (data.data.length === 0) {
+        alert("Nada encontrado! Por favor, tente outro nome.");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -71,8 +79,6 @@ export const AnimeContextProvider = ({ children }) => {
         setTopAnime,
         animeList,
         setAnimeList,
-        animeRecommendations,
-        setAnimeRecommendations,
         fetchAnime,
         animeGenres,
         setAnimeGenres,
@@ -82,7 +88,14 @@ export const AnimeContextProvider = ({ children }) => {
         setGenreList,
         getAnimebyGenreId,
         genreSelected,
+        id,
+        setId,
         setGenreSelected,
+        currentPage,
+        setCurrentPage,
+        lastPage,
+        loading,
+        setLoading,
       }}
     >
       {children}
