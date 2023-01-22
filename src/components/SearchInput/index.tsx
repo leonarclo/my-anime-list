@@ -1,4 +1,4 @@
-import { Container, SearchIcon } from "../SearchInput/style";
+import { Container, SearchIcon } from "./style";
 
 function SearchInput({ search, setSearch, handleSearch }) {
   return (

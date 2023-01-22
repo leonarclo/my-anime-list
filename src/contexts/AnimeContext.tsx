@@ -1,11 +1,30 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { data } from "../api/genres";
+import { TTopAnimes, TAnimeList } from "../types/types";
 
-export const AnimeContext = createContext();
+type AnimeContextProps = {
+  children: ReactNode;
+};
 
-export const AnimeContextProvider = ({ children }) => {
-  const [topAnime, setTopAnime] = useState([]);
-  const [animeList, setAnimeList] = useState([]);
+type TAnimeContext = {
+  topAnime: TTopAnimes[];
+  setTopAnime: Dispatch<SetStateAction<TTopAnimes[]>>;
+  animeList: TAnimeList[];
+  setAnimeList: Dispatch<SetStateAction<TAnimeList[]>>;
+};
+
+export const AnimeContext = createContext<TAnimeContext>({} as TAnimeContext);
+
+export const AnimeContextProvider = ({ children }: AnimeContextProps) => {
+  const [topAnime, setTopAnime] = useState<TTopAnimes[]>([]);
+  const [animeList, setAnimeList] = useState<TAnimeList[]>([]);
   const [animeGenres, setAnimeGenres] = useState([]);
   const [animeByGenre, setAnimeByGenre] = useState([]);
   const [genreList, setGenreList] = useState([]);
@@ -52,7 +71,7 @@ export const AnimeContextProvider = ({ children }) => {
     getTopAnime();
   }, []);
 
-  async function fetchAnime(query) {
+  async function fetchAnime(query: string) {
     try {
       setLoading(true);
       const response = await fetch(
