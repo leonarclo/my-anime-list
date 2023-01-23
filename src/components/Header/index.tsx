@@ -2,9 +2,10 @@ import { Container, Content, Title } from "./style";
 import SearchInput from "../SearchInput/index";
 import { useContext, useState } from "react";
 import { AnimeContext } from "../../contexts/AnimeContext";
+import { Link, Navigate } from "react-router-dom";
 
 const Header = () => {
-  const { setCurrentPage, setAnimeList, setLoading } = useContext(AnimeContext);
+  const { setAnimeList, setLoading } = useContext(AnimeContext);
   const [search, setSearch] = useState<string>("");
 
   async function fetchAnime(query: string) {
@@ -27,15 +28,13 @@ const Header = () => {
     }
   }
 
-  function reload() {
-    window.location.reload();
-    setCurrentPage(1);
-  }
-
   return (
     <Container>
       <Content>
-        <Title onClick={reload}>My Anime App</Title>
+        <Link to="/">
+          <Title>My Anime App</Title>
+        </Link>
+
         <SearchInput
           search={search}
           setSearch={setSearch}

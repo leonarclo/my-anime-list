@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { AnimeContext } from "../../contexts/AnimeContext";
 import {
   Container,
@@ -10,15 +11,8 @@ import {
 } from "./style";
 
 function AnimeByGenre() {
-  const {
-    animeByGenre,
-    genreSelected,
-    currentPage,
-    setCurrentPage,
-    getAnimebyGenreId,
-    id,
-    lastPage,
-  } = useContext(AnimeContext);
+  const { animeByGenre, genreSelected, currentPage, setCurrentPage, lastPage } =
+    useContext(AnimeContext);
 
   function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
     const input = event.target as HTMLElement;
@@ -30,13 +24,8 @@ function AnimeByGenre() {
   }
 
   function handleClickReturn() {
-    window.location.reload();
     setCurrentPage(1);
   }
-
-  useEffect(() => {
-    getAnimebyGenreId(id);
-  }, [currentPage]);
 
   return (
     <Container>
@@ -64,7 +53,9 @@ function AnimeByGenre() {
       </Content>
       <Pagination>
         <ReturnButton>
-          <button onClick={handleClickReturn}>Retornar</button>
+          <Link to="/">
+            <button onClick={handleClickReturn}>Retornar</button>
+          </Link>
         </ReturnButton>
         <ButtonPages>
           <button onClick={handleClick}>Prev</button>

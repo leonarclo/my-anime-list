@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Container, SearchIcon } from "./style";
 
 type SearchInputProps = {
@@ -7,9 +8,12 @@ type SearchInputProps = {
 };
 
 function SearchInput({ search, setSearch, fetchAnime }: SearchInputProps) {
+  const navigate = useNavigate();
+
   function handleSearch(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
 
+    navigate("/search");
     fetchAnime(search);
     setSearch("");
   }
@@ -25,9 +29,9 @@ function SearchInput({ search, setSearch, fetchAnime }: SearchInputProps) {
         placeholder="Procurar anime..."
         required
         value={search}
-        onChange={() => handleChange}
+        onChange={handleChange}
       />
-      <button onClick={() => handleSearch}>
+      <button onClick={handleSearch}>
         <SearchIcon />
       </button>
     </Container>

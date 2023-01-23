@@ -61,26 +61,26 @@ export const AnimeContextProvider = ({ children }: AnimeContextProps) => {
     let allAnimes = [];
 
     try {
-      setLoading(true);
       const response = await fetch(
         `https://api.jikan.moe/v4/anime?genres=${id}&page=${currentPage}`
       );
       const data = await response.json();
       allAnimes.push(...data.data);
-      setAnimeByGenre(allAnimes);
-      setLastPage(data.pagination.last_visible_page);
+      if (allAnimes) {
+        setAnimeByGenre(allAnimes);
+        setLastPage(data.pagination.last_visible_page);
+      }
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   }
 
   useEffect(() => {
-    getAnimeGenre();
-  }, []);
+    getAnimebyGenreId(id);
+  }, [genreSelected, currentPage, id]);
 
   useEffect(() => {
+    getAnimeGenre();
     getTopAnime();
   }, []);
 
