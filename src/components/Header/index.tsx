@@ -2,7 +2,7 @@ import { Container, Content, Title } from "./style";
 import SearchInput from "../SearchInput/index";
 import { useContext, useState } from "react";
 import { AnimeContext } from "../../contexts/AnimeContext";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { setAnimeList, setLoading } = useContext(AnimeContext);

@@ -4,8 +4,14 @@ import { AnimeContext } from "../../contexts/AnimeContext";
 import { Container } from "./style";
 
 function GenreList() {
-  const { animeGenres, setGenreSelected, setId, setLoading, setCurrentPage } =
-    useContext(AnimeContext);
+  const {
+    animeGenres,
+    setGenreSelected,
+    setId,
+    setLoading,
+    setCurrentPage,
+    setAnimeByGenre,
+  } = useContext(AnimeContext);
 
   function handleClick(event: React.MouseEvent<HTMLElement>) {
     try {
@@ -14,6 +20,7 @@ function GenreList() {
       const filter = animeGenres.filter(
         (item) => item.name === input.innerText
       );
+      setAnimeByGenre([]);
       setId(filter[0].id);
       setGenreSelected(filter[0].name);
       setCurrentPage(1);

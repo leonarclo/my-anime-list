@@ -41,6 +41,6 @@ export const Loading = styled.div`
   justify-content: center;
   h4 {
     font-size: 30px;
-    color: var(--fourth-color);
+    color: var(--third-color);
   }
 `;

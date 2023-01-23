@@ -7,7 +7,7 @@ import {
   SetStateAction,
 } from "react";
 import { data } from "../api/genres";
-import { TTopAnimes, TAnimeList, TData } from "../types/types";
+import { TTopAnimes, TAnimeList, TData } from "../types/AnimeTypes";
 
 type AnimeContextProps = {
   children: ReactNode;
@@ -22,7 +22,6 @@ type TAnimeContext = {
   setAnimeGenres: Dispatch<SetStateAction<TData[]>>;
   animeByGenre: TAnimeList[];
   setAnimeByGenre: Dispatch<SetStateAction<TAnimeList[]>>;
-  getAnimebyGenreId: (id: number) => Promise<void>;
   genreSelected: string;
   setGenreSelected: Dispatch<SetStateAction<string>>;
   id: number;
@@ -57,27 +56,28 @@ export const AnimeContextProvider = ({ children }: AnimeContextProps) => {
     setAnimeGenres(data);
   }
 
-  async function getAnimebyGenreId(id: number) {
-    let allAnimes = [];
-
-    try {
-      const response = await fetch(
-        `https://api.jikan.moe/v4/anime?genres=${id}&page=${currentPage}`
-      );
-      const data = await response.json();
-      allAnimes.push(...data.data);
-      if (allAnimes) {
-        setAnimeByGenre(allAnimes);
-        setLastPage(data.pagination.last_visible_page);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   useEffect(() => {
-    getAnimebyGenreId(id);
-  }, [genreSelected, currentPage, id]);
+    async function getAnimebyGenreId() {
+      try {
+        let allAnimes = [];
+        setLoading(true);
+        const response = await fetch(
+          `https://api.jikan.moe/v4/anime?genres=${id}&page=${currentPage}`
+        );
+        const data = await response.json();
+        allAnimes.push(...data.data);
+        if (allAnimes) {
+          setAnimeByGenre(allAnimes);
+          setLastPage(data.pagination.last_visible_page);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getAnimebyGenreId();
+  }, [currentPage, id]);
 
   useEffect(() => {
     getAnimeGenre();
@@ -95,7 +95,6 @@ export const AnimeContextProvider = ({ children }: AnimeContextProps) => {
         setAnimeGenres,
         animeByGenre,
         setAnimeByGenre,
-        getAnimebyGenreId,
         genreSelected,
         setGenreSelected,
         id,
