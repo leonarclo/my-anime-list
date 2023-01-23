@@ -3,19 +3,12 @@ import { AnimeContext } from "../../contexts/AnimeContext";
 import { Container } from "./style";
 
 function AnimeGenre() {
-  const {
-    animeGenres,
-    getAnimebyGenreId,
-    setGenreSelected,
-    setId,
-    id,
-    loading,
-  } = useContext(AnimeContext);
+  const { animeGenres, getAnimebyGenreId, setGenreSelected, setId, id } =
+    useContext(AnimeContext);
 
-  function handleClick(event) {
-    const filter = animeGenres.filter(
-      (item) => item.name === event.target.innerText
-    );
+  function handleClick(event: React.MouseEvent<HTMLElement>) {
+    const input = event.target as HTMLElement;
+    const filter = animeGenres.filter((item) => item.name === input.innerText);
     setId(filter[0].id);
     setGenreSelected(filter[0].name);
   }
@@ -25,7 +18,8 @@ function AnimeGenre() {
   }, [id]);
 
   return (
-    !loading && (
+    <>
+      ( !loading && (
       <Container>
         <h2>Selecione um gênero</h2>
         <hr />
@@ -37,7 +31,8 @@ function AnimeGenre() {
           ))}
         </ul>
       </Container>
-    )
+      ) );
+    </>
   );
 }
 

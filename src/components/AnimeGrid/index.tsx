@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import { AnimeContext } from "../../contexts/AnimeContext";
-import { Loading } from "../../styles/GlobalStyles";
 import AnimeByGenre from "../AnimeByGenre";
 import AnimeGenre from "../AnimeGenre";
 import AnimeSearch from "../AnimeSearch";
 
 function AnimeGrid() {
-  const { animeByGenre, animeList, loading } = useContext(AnimeContext);
+  const { animeByGenre, animeList } = useContext(AnimeContext);
 
   return (
     <>

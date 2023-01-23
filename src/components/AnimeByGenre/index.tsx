@@ -20,16 +20,17 @@ function AnimeByGenre() {
     lastPage,
   } = useContext(AnimeContext);
 
-  function handleClick(event) {
-    if (event.target.innerText === "Prev" && currentPage > 1) {
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    const input = event.target as HTMLElement;
+    if (input.innerText === "Prev" && currentPage > 1) {
       setCurrentPage(currentPage - 1);
-    } else if (event.target.innerText === "Next" && currentPage < lastPage) {
+    } else if (input.innerText === "Next" && currentPage < lastPage) {
       setCurrentPage(currentPage + 1);
     }
   }
 
   function handleClickReturn() {
-    window.location.reload(false);
+    window.location.reload();
     setCurrentPage(1);
   }
 

@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useState,
   useEffect,
@@ -7,7 +7,7 @@ import React, {
   SetStateAction,
 } from "react";
 import { data } from "../api/genres";
-import { TTopAnimes, TAnimeList } from "../types/types";
+import { TTopAnimes, TAnimeList, TData } from "../types/types";
 
 type AnimeContextProps = {
   children: ReactNode;
@@ -18,6 +18,23 @@ type TAnimeContext = {
   setTopAnime: Dispatch<SetStateAction<TTopAnimes[]>>;
   animeList: TAnimeList[];
   setAnimeList: Dispatch<SetStateAction<TAnimeList[]>>;
+  animeGenres: TData[];
+  setAnimeGenres: Dispatch<SetStateAction<TData[]>>;
+  animeByGenre: TAnimeList[];
+  setAnimeByGenre: Dispatch<SetStateAction<TAnimeList[]>>;
+  genreList: string[];
+  setGenreList: (newState: string[]) => void;
+  getAnimebyGenreId: (id: number) => Promise<void>;
+  genreSelected: string;
+  setGenreSelected: Dispatch<SetStateAction<string>>;
+  id: number;
+  setId: Dispatch<SetStateAction<number>>;
+  currentPage: number;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  lastPage: number;
+  setlastPage: Dispatch<SetStateAction<number>>;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 export const AnimeContext = createContext<TAnimeContext>({} as TAnimeContext);
@@ -25,14 +42,13 @@ export const AnimeContext = createContext<TAnimeContext>({} as TAnimeContext);
 export const AnimeContextProvider = ({ children }: AnimeContextProps) => {
   const [topAnime, setTopAnime] = useState<TTopAnimes[]>([]);
   const [animeList, setAnimeList] = useState<TAnimeList[]>([]);
-  const [animeGenres, setAnimeGenres] = useState([]);
-  const [animeByGenre, setAnimeByGenre] = useState([]);
-  const [genreList, setGenreList] = useState([]);
-  const [id, setId] = useState(null);
-  const [loading, setLoading] = useState(null);
-  const [genreSelected, setGenreSelected] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(null);
+  const [animeGenres, setAnimeGenres] = useState<TData[]>([]);
+  const [animeByGenre, setAnimeByGenre] = useState<TAnimeList[]>([]);
+  const [genreSelected, setGenreSelected] = useState<string>("");
+  const [id, setId] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [lastPage, setLastPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function getTopAnime() {
     const response = await fetch(`https://api.jikan.moe/v4/top/anime`);
@@ -44,7 +60,7 @@ export const AnimeContextProvider = ({ children }: AnimeContextProps) => {
     setAnimeGenres(data);
   }
 
-  async function getAnimebyGenreId(id) {
+  async function getAnimebyGenreId(id: number) {
     let allAnimes = [];
 
     try {
@@ -71,26 +87,6 @@ export const AnimeContextProvider = ({ children }: AnimeContextProps) => {
     getTopAnime();
   }, []);
 
-  async function fetchAnime(query: string) {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `https://api.jikan.moe/v4/anime?q=${query}&limit=20`
-      );
-      const data = await response.json();
-      if (data.data.length > 0) {
-        setAnimeList(data.data);
-        console.log(data.data);
-      } else if (data.data.length === 0) {
-        alert("Nada encontrado! Por favor, tente outro nome.");
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   return (
     <AnimeContext.Provider
       value={{
@@ -98,18 +94,15 @@ export const AnimeContextProvider = ({ children }: AnimeContextProps) => {
         setTopAnime,
         animeList,
         setAnimeList,
-        fetchAnime,
         animeGenres,
         setAnimeGenres,
         animeByGenre,
         setAnimeByGenre,
-        genreList,
-        setGenreList,
         getAnimebyGenreId,
         genreSelected,
+        setGenreSelected,
         id,
         setId,
-        setGenreSelected,
         currentPage,
         setCurrentPage,
         lastPage,

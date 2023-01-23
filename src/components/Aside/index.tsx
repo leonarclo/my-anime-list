@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { AnimeContext } from "../../contexts/AnimeContext.js";
-import { Container, TopAnime } from "./style.js";
+import { AnimeContext } from "../../contexts/AnimeContext";
+import { Container, TopAnime } from "./style";
 
 function Aside() {
   const { topAnime } = useContext(AnimeContext);
