@@ -22,8 +22,6 @@ type TAnimeContext = {
   setAnimeGenres: Dispatch<SetStateAction<TData[]>>;
   animeByGenre: TAnimeList[];
   setAnimeByGenre: Dispatch<SetStateAction<TAnimeList[]>>;
-  genreList: string[];
-  setGenreList: (newState: string[]) => void;
   getAnimebyGenreId: (id: number) => Promise<void>;
   genreSelected: string;
   setGenreSelected: Dispatch<SetStateAction<string>>;
@@ -32,7 +30,6 @@ type TAnimeContext = {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   lastPage: number;
-  setlastPage: Dispatch<SetStateAction<number>>;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
 };
